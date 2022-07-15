@@ -1,24 +1,22 @@
 ---
-title: ContactShadow
+title: ContactShadows
 ---
 
 <script lang="ts">
-import Wrapper from '$examples/contact-shadow/Wrapper.svelte'
+import Wrapper from '$examples/contact-shadows/Wrapper.svelte'
 </script>
 
-!!!module_summary title=ContactShadow|sourcePath=/components/ContactShadow/ContactShadow.svelte|name=ContactShadow|from=extras|type=component
+!!!module_summary title=ContactShadows|sourcePath=/components/ContactShadows/ContactShadows.svelte|name=ContactShadows|from=extras|type=component
 
-Abstracts `THREE.ContactShadowGeometry`. This component automatically pulls the geometry from its parent.
-
-ContactShadow are displayed when the angle between two faces exceeds the angle defined by the property `threshold`.
+This component is a port of [drei's `<ContactShadows>` component](https://github.com/pmndrs/drei#contactshadows) and makes its contents float or hover.
 
 <ExampleWrapper>
   <Wrapper />
 </ExampleWrapper>
 
 &&&code_wrapper
-@[code svelte|title=Wrapper.svelte](../../examples/contact-shadow/Wrapper.svelte)
-@[code svelte|title=Scene.svelte](../../examples/contact-shadow/Scene.svelte)
+@[code svelte|title=Wrapper.svelte](../../examples/contact-shadows/Wrapper.svelte)
+@[code svelte|title=Scene.svelte](../../examples/contact-shadows/Scene.svelte)
 &&&
 
 !!!
@@ -29,11 +27,11 @@ ContactShadow are displayed when the angle between two faces exceeds the angle d
 <script lang="ts">
   import { BoxBufferGeometry, MeshBasicMaterial } from 'three'
   import { Mesh } from '@threlte/extras'
-  import { ContactShadow } from 'threlte/extras'
+  import { ContactShadows } from 'threlte/extras'
 </script>
 
 <Mesh geometry={new BoxBufferGeometry(1, 1, 1)} material={new MeshBasicMaterial()}>
-  <ContactShadow color="black" />
+  <ContactShadows color="black" />
 </Mesh>
 ```
 

@@ -107,19 +107,19 @@
     dm.onBeforeCompile = (shader) => {
       shader.uniforms = {
         ...shader.uniforms,
-        ucolor: {
+        uColor: {
           value: new Color(color).convertSRGBToLinear()
         }
       }
       shader.fragmentShader = shader.fragmentShader.replace(
         `void main() {`, //
-        `uniform vec3 ucolor;
+        `uniform vec3 uColor;
            void main() {
           `
       )
       shader.fragmentShader = shader.fragmentShader.replace(
         'vec4( vec3( 1.0 - fragCoordZ ), opacity );',
-        'vec4( ucolor, ( 1.0 - fragCoordZ ) * 1.0 );'
+        'vec4( uColor, ( 1.0 - fragCoordZ ) * 1.0 );'
       )
     }
     return dm
@@ -177,20 +177,34 @@
   let count = 0
   useFrame(() => {
     if (frames === Infinity || count < frames) {
+      // remove the background
       const initialBackground = scene.background
       scene.background = null
+
+      // force the depthMaterial to everything
       const initialOverrideMaterial = scene.overrideMaterial
       scene.overrideMaterial = $depthMaterial
+
+      // set renderer clear alpha
+      const initialClearAlpha = renderer.getClearAlpha()
+      renderer.setClearAlpha(0)
+
+      // render to the render target to get the depths
       renderer.setRenderTarget($renderTarget)
       renderer.render(scene, shadowCamera)
+
+      // and reset the override material
       scene.overrideMaterial = initialOverrideMaterial
 
       blurShadows(blur)
+      // a second pass to reduce the artifacts
       if (smooth) blurShadows(blur * 0.4)
 
+      // reset
       renderer.setRenderTarget(null)
       scene.background = initialBackground
-      count++
+      renderer.setClearAlpha(initialClearAlpha)
+      count += 1
     }
   })
 
