@@ -193,16 +193,16 @@
       count++
     }
   })
+
   onDestroy(() => {
-    debugger
+    $renderTarget.dispose()
+    $renderTargetBlur.dispose()
+    $planeGeometry.dispose()
+    $depthMaterial.dispose()
+    horizontalBlurMaterial.dispose()
+    verticalBlurMaterial.dispose()
+    shadowMaterial.dispose()
   })
-  onDestroy($renderTarget.dispose)
-  onDestroy($renderTargetBlur.dispose)
-  onDestroy($planeGeometry.dispose)
-  onDestroy($depthMaterial.dispose)
-  onDestroy(horizontalBlurMaterial.dispose)
-  onDestroy(verticalBlurMaterial.dispose)
-  onDestroy(shadowMaterial.dispose)
 </script>
 
 <Group
