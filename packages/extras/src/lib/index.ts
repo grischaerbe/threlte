@@ -9,6 +9,7 @@ export { default as Edges } from './components/Edges/Edges.svelte'
 export { default as HTML } from './components/HTML/HTML.svelte'
 export { default as Float } from './components/Float/Float.svelte'
 export { default as GLTF } from './components/GLTF/GLTF.svelte'
+export { default as ContactShadow } from './components/ContactShadow/ContactShadow.svelte'
 
 // text component
 export { default as Text } from './components/Text/Text.svelte'

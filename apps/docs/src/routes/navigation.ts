@@ -312,6 +312,10 @@ export const sidebar = {
 			{
 				title: 'Float',
 				slug: '/extras/float'
+			},
+			{
+				title: 'ContactShadow',
+				slug: '/extras/contact-shadow'
 			}
 		]
 	}

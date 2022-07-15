@@ -4,6 +4,7 @@ title: HTML
 
 <script lang="ts">
 import Wrapper from '$examples/extras/html/Wrapper.svelte'
+import Wrapper2 from '$examples/html/Wrapper.svelte'
 </script>
 
 !!!module_summary title=HTML|sourcePath=/components/HTML/HTML.svelte|name=HTML|from=extras|type=component
@@ -16,6 +17,10 @@ The container of your `<Canvas>` component needs to be set to `position: relativ
 
 <ExampleWrapper>
   <Wrapper />
+</ExampleWrapper>
+
+<ExampleWrapper>
+  <Wrapper2 />
 </ExampleWrapper>
 
 &&&code_wrapper
