@@ -8,7 +8,7 @@ import Wrapper from '$examples/contact-shadows/Wrapper.svelte'
 
 !!!module_summary title=ContactShadows|sourcePath=/components/ContactShadows/ContactShadows.svelte|name=ContactShadows|from=extras|type=component
 
-This component is a port of [drei's `<ContactShadows>` component](https://github.com/pmndrs/drei#contactshadows) and makes its contents float or hover.
+This component is a port of [drei's `<ContactShadows>` component](https://github.com/pmndrs/drei#contactshadows).
 
 <ExampleWrapper>
   <Wrapper />
@@ -25,14 +25,10 @@ This component is a port of [drei's `<ContactShadows>` component](https://github
 
 ```svelte
 <script lang="ts">
-  import { BoxBufferGeometry, MeshBasicMaterial } from 'three'
-  import { Mesh } from '@threlte/extras'
   import { ContactShadows } from 'threlte/extras'
 </script>
 
-<Mesh geometry={new BoxBufferGeometry(1, 1, 1)} material={new MeshBasicMaterial()}>
-  <ContactShadows color="black" />
-</Mesh>
+<ContactShadows scale={10} blur={2} far={2.5} opacity={0.5} />
 ```
 
 ### Properties
