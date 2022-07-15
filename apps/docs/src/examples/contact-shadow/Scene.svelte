@@ -16,6 +16,8 @@
 	import { useCursor, Text, ContactShadow, Float, HTML } from '@threlte/extras'
 	import { GridHelper } from 'three'
 	import { onDestroy } from 'svelte'
+	import { IcosahedronBufferGeometry } from 'three'
+	import { TorusKnotBufferGeometry } from 'three'
 
 	const material = new MeshStandardMaterial({
 		color: 0x0000ff
@@ -45,26 +47,26 @@
 <DirectionalLight position={{ y: 10, x: 5 }} />
 <AmbientLight intensity={0.2} />
 
-<ContactShadow scale={10} smooth opacity={0.5} />
+<ContactShadow scale={10} blur={2} far={2} opacity={1} />
 
-<Float>
-	<Mesh position={{ y: 0.75 }} geometry={new BoxBufferGeometry(1, 1, 1)} {material} />
+<Float floatIntensity={1} floatingRange={[0, 1]}>
+	<Mesh position={{ y: 1.2, z: -0.75 }} geometry={new BoxBufferGeometry(1, 1, 1)} {material} />
 </Float>
 
-<Float>
+<Float floatIntensity={1} floatingRange={[0, 1]}>
 	<Mesh
-		position={{ y: 1.5, x: 1.2, z: 1.5 }}
+		position={{ y: 1.5, x: 1.2, z: 0.75 }}
 		rotation={{ x: 5, y: 71 }}
-		geometry={new BoxBufferGeometry(1, 1, 1)}
+		geometry={new TorusKnotBufferGeometry(0.5, 0.15, 100, 12, 2, 3)}
 		{material}
 	/>
 </Float>
 
-<Float>
+<Float floatIntensity={1} floatingRange={[0, 1]}>
 	<Mesh
-		position={{ y: 2, x: -1.4, z: 1.5 }}
+		position={{ y: 1.5, x: -1.4, z: 0.75 }}
 		rotation={{ x: -5, y: 128, z: 10 }}
-		geometry={new BoxBufferGeometry(1, 1, 1)}
+		geometry={new IcosahedronBufferGeometry(1, 0)}
 		{material}
 	/>
 </Float>
