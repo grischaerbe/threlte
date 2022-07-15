@@ -39,9 +39,6 @@ This component is a port of [drei's `<ContactShadows>` component](https://github
 
 ```ts
 // optional
-color: THREE.ColorRepresentation | undefined = undefined
-material: THREE.Material | THREE.Material[] | undefined = undefined
-threshold: number | undefined = undefined
 position: Position | undefined = undefined
 scale: Scale | undefined = undefined
 rotation: Rotation | undefined = undefined
@@ -52,8 +49,17 @@ receiveShadow: boolean | undefined = undefined
 frustumCulled: boolean | undefined = undefined
 renderOrder: number | undefined = undefined
 visible: boolean | undefined = undefined
-interactive: boolean = false
-ignorePointer: boolean = false
+opacity: number = 1
+width: number = 1
+height: number = 1
+blur: number = 1
+far: number = 10
+smooth: boolean = true
+resolution: number = 512
+frames: number = Infinity
+scale: number | [x: number, y: number] = 10
+color: THREE.ColorRepresentation = '#000000'
+depthWrite: boolean = false
 ```
 
 ### Bindings
@@ -67,11 +73,4 @@ inViewport: boolean
 ```ts
 viewportenter: undefined
 viewportleave: undefined
-click: CustomEvent<ThreltePointerEvent>
-contextmenu: CustomEvent<ThreltePointerEvent>
-pointerup: CustomEvent<ThreltePointerEvent>
-pointerdown: CustomEvent<ThreltePointerEvent>
-pointerenter: CustomEvent<ThreltePointerEvent>
-pointerleave: CustomEvent<ThreltePointerEvent>
-pointermove: CustomEvent<ThreltePointerEvent>
 ```

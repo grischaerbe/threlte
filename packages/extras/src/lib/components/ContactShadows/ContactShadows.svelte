@@ -224,11 +224,14 @@
   {position}
   {lookAt}
   {viewportAware}
-  {inViewport}
   {castShadow}
   {receiveShadow}
   {frustumCulled}
   {visible}
+  {renderOrder}
+  bind:inViewport
+  on:viewportenter
+  on:viewportleave
 >
   <Mesh
     material={shadowMaterial}
