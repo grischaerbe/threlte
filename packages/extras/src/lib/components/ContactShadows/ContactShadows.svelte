@@ -1,23 +1,5 @@
-<script lang="ts" context="module">
-  import { useFrame, useThrelte, type GroupProperties } from '@threlte/core'
-
-  type ContactShadowProperties = Omit<GroupProperties, 'scale'> & {
-    opacity?: number
-    width?: number
-    height?: number
-    blur?: number
-    far?: number
-    smooth?: boolean
-    resolution?: number
-    frames?: number
-    scale?: number | [x: number, y: number]
-    color?: THREE.ColorRepresentation
-    depthWrite?: boolean
-  }
-</script>
-
 <script lang="ts">
-  import { CameraInstance, Group, Mesh } from '@threlte/core'
+  import { CameraInstance, Group, Mesh, useFrame, useThrelte } from '@threlte/core'
   import { onDestroy } from 'svelte'
   import {
     Color,
@@ -32,6 +14,7 @@
   import { HorizontalBlurShader } from 'three/examples/jsm/shaders/HorizontalBlurShader'
   import { VerticalBlurShader } from 'three/examples/jsm/shaders/VerticalBlurShader'
   import { useMemo } from '../../lib/useMemo'
+  import type { ContactShadowProperties } from '../../types/components'
 
   // Group Properties
   export let position: ContactShadowProperties['position'] = undefined
