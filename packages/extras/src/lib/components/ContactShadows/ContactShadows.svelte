@@ -130,7 +130,6 @@
   shadowCamera.updateProjectionMatrix()
 
   const shadowMaterial = new MeshBasicMaterial({
-    color: '#00ff00',
     map: $renderTarget.texture,
     transparent: true,
     opacity,
