@@ -10,6 +10,43 @@ import Wrapper from '$examples/contact-shadows/Wrapper.svelte'
 
 This component is a port of [drei's `<ContactShadows>` component](https://github.com/pmndrs/drei#contactshadows).
 
+A contact shadow implementation, facing upwards (positive Y) by default. `scale` can be a positive number or a 2D array (`x: number, y: number]`).
+
+```svelte
+<ContactShadows
+	opacity={1}
+	scale={10}
+	blur={1}
+	far={10}
+	resolution={256}
+	color="#000000"
+/>
+```
+
+Since this is a rather expensive effect you can limit the amount of frames it renders when your objects are static. For instance making it render only once:
+
+```svelte
+<ContactShadows frames={1} />
+```
+
+Use the binding `refresh` to manually refresh the shadows:
+
+```svelte
+<script>
+	let refresh
+
+	const onSomeEvent = () => {
+		if (refresh) refresh()
+	}
+</script>
+
+<ContactShadows bind:refresh frames={0} />
+```
+
+Currently it has the same limitations of drei's version: It yields unexpected results if moved on the x or the z axis.
+
+
+
 <ExampleWrapper>
   <Wrapper />
 </ExampleWrapper>
@@ -62,6 +99,7 @@ depthWrite: boolean = false
 
 ```ts
 inViewport: boolean
+refresh: () => void
 ```
 
 ### Events

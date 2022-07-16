@@ -155,55 +155,65 @@
   })
 
   const blurShadows = (blur: number) => {
-    $blurPlane.visible = true
+    // separate from store to not call store setter
+    const bp = $blurPlane
+    bp.visible = true
 
-    $blurPlane.material = horizontalBlurMaterial
+    bp.material = horizontalBlurMaterial
     horizontalBlurMaterial.uniforms.tDiffuse.value = $renderTarget.texture
     horizontalBlurMaterial.uniforms.h.value = (blur * 1) / 256
 
     renderer.setRenderTarget($renderTargetBlur)
-    renderer.render($blurPlane, shadowCamera)
+    renderer.render(bp, shadowCamera)
 
-    $blurPlane.material = verticalBlurMaterial
+    bp.material = verticalBlurMaterial
     verticalBlurMaterial.uniforms.tDiffuse.value = $renderTargetBlur.texture
     verticalBlurMaterial.uniforms.v.value = (blur * 1) / 256
 
     renderer.setRenderTarget($renderTarget)
-    renderer.render($blurPlane, shadowCamera)
+    renderer.render(bp, shadowCamera)
 
-    $blurPlane.visible = false
+    bp.visible = false
+  }
+
+  const renderShadows = () => {
+    // remove the background
+    const initialBackground = scene.background
+    scene.background = null
+
+    // force the depthMaterial to everything
+    const initialOverrideMaterial = scene.overrideMaterial
+    scene.overrideMaterial = $depthMaterial
+
+    // set renderer clear alpha
+    const initialClearAlpha = renderer.getClearAlpha()
+    renderer.setClearAlpha(0)
+
+    // render to the render target to get the depths
+    renderer.setRenderTarget($renderTarget)
+    renderer.render(scene, shadowCamera)
+
+    // and reset the override material
+    scene.overrideMaterial = initialOverrideMaterial
+
+    blurShadows(blur)
+    // a second pass to reduce the artifacts
+    if (smooth) blurShadows(blur * 0.4)
+
+    // reset
+    renderer.setRenderTarget(null)
+    scene.background = initialBackground
+    renderer.setClearAlpha(initialClearAlpha)
+  }
+
+  export const refresh = () => {
+    renderShadows()
   }
 
   let count = 0
   useFrame(() => {
     if (frames === Infinity || count < frames) {
-      // remove the background
-      const initialBackground = scene.background
-      scene.background = null
-
-      // force the depthMaterial to everything
-      const initialOverrideMaterial = scene.overrideMaterial
-      scene.overrideMaterial = $depthMaterial
-
-      // set renderer clear alpha
-      const initialClearAlpha = renderer.getClearAlpha()
-      renderer.setClearAlpha(0)
-
-      // render to the render target to get the depths
-      renderer.setRenderTarget($renderTarget)
-      renderer.render(scene, shadowCamera)
-
-      // and reset the override material
-      scene.overrideMaterial = initialOverrideMaterial
-
-      blurShadows(blur)
-      // a second pass to reduce the artifacts
-      if (smooth) blurShadows(blur * 0.4)
-
-      // reset
-      renderer.setRenderTarget(null)
-      scene.background = initialBackground
-      renderer.setClearAlpha(initialClearAlpha)
+      renderShadows()
       count += 1
     }
   })
