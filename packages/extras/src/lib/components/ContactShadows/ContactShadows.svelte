@@ -217,10 +217,19 @@
     verticalBlurMaterial.dispose()
     shadowMaterial.dispose()
   })
+
+  let combinedRotation = {
+    ...rotation,
+    x: rotation?.x ?? 0 + Math.PI / 2
+  }
+  $: combinedRotation = {
+    ...rotation,
+    x: rotation?.x ?? 0 + Math.PI / 2
+  }
 </script>
 
 <Group
-  rotation={{ x: Math.PI / 2 }}
+  rotation={combinedRotation}
   {position}
   {lookAt}
   {viewportAware}
