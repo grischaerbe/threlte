@@ -3,6 +3,7 @@
 		DirectionalLight,
 		Mesh,
 		Object3DInstance,
+		OrbitControls,
 		PerspectiveCamera,
 		useLoader,
 		useThrelte
@@ -29,6 +30,10 @@
 
 	const { gltf } = useGltf('/models/loop/loop.glb')
 </script>
+
+<!-- <PerspectiveCamera position={{ y: 5, x: 15, z: 15 }} fov={20}>
+	<OrbitControls />
+</PerspectiveCamera> -->
 
 <DirectionalLight position={{ y: 20, x: 8, z: -3 }} />
 
@@ -71,7 +76,7 @@
 	</AutoColliders>
 {/if}
 
-<Car position={{ y: 5, x: 70 }}>
+<Car position={{ y: 5, x: 0 }}>
 	<PerspectiveCamera
 		rotation={{ x: -90 * DEG2RAD, z: 90 * DEG2RAD, y: 70 * DEG2RAD }}
 		position={{ y: 5, x: 10 }}

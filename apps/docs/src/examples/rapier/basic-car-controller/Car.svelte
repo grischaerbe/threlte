@@ -19,6 +19,8 @@
 	import { DEG2RAD } from 'three/src/math/MathUtils'
 	import Axle from './Axle.svelte'
 	import { onDestroy } from 'svelte'
+	import Damper from './Damper.svelte'
+	import Wheel from './Wheel.svelte'
 
 	export let position: Position | undefined = undefined
 	export let rotation: Rotation | undefined = undefined
@@ -57,20 +59,26 @@
 		world.maxVelocityFrictionIterations = initialIterations.maxVelocityFrictionIterations
 		world.maxVelocityIterations = initialIterations.maxVelocityIterations
 	})
+
+	const damperOffsetX = 1.2
+	const damperOffsetZ = 0.6
+	const damperOffsetY = -0.4
 </script>
 
 <Group {position} {rotation}>
 	<RigidBody bind:rigidBody={parentRigidBody} canSleep={false}>
-		<Collider mass={1} shape={'cuboid'} args={[1.25, 0.4, 0.5]} />
+		<Collider mass={1} shape={'cuboid'} args={[1.5, 0.4, 0.5]} />
 
 		<!-- CAR BODY MESH -->
 		<Mesh
 			castShadow
-			geometry={new BoxBufferGeometry(2.5, 0.8, 1)}
+			geometry={new BoxBufferGeometry(3, 0.8, 1)}
 			material={new MeshStandardMaterial()}
 		/>
 
+		<!-- CAMERA SLOT -->
 		<slot />
+
 		<HTML rotation={{ y: 90 * DEG2RAD }} transform position={{ x: 3 }}>
 			<p class="text-xs text-black">
 				{($speed * 3.6).toFixed(0)} km/h
@@ -78,35 +86,55 @@
 		</HTML>
 	</RigidBody>
 
-	<!-- FRONT AXLES -->
-	<Axle
-		side={'left'}
-		isSteered
+	<Damper
+		position={{ x: -damperOffsetX, z: damperOffsetZ, y: damperOffsetY }}
+		anchor={{ x: -damperOffsetX, z: damperOffsetZ, y: damperOffsetY }}
 		{parentRigidBody}
-		position={{ x: -1.2, z: 0.8, y: -0.4 }}
-		anchor={{ x: -1.2, z: 0.8, y: -0.4 }}
-	/>
-	<Axle
-		side={'right'}
-		isSteered
-		{parentRigidBody}
-		position={{ x: -1.2, z: -0.8, y: -0.4 }}
-		anchor={{ x: -1.2, z: -0.8, y: -0.4 }}
-	/>
+		let:rigidBody
+	>
+		<Axle
+			isSteered
+			position={{}}
+			anchor={{}}
+			parentRigidBody={rigidBody}
+			let:rigidBody={axleRigidBody}
+		>
+			<Wheel anchor={{ z: 0.18 }} position={{ z: 0.18 }} parentRigidBody={axleRigidBody} />
+		</Axle>
+	</Damper>
 
-	<!-- BACK AXLES -->
-	<Axle
-		isDriven
-		side={'left'}
+	<Damper
+		position={{ x: -damperOffsetX, z: -damperOffsetZ, y: damperOffsetY }}
+		anchor={{ x: -damperOffsetX, z: -damperOffsetZ, y: damperOffsetY }}
 		{parentRigidBody}
-		position={{ x: 1.2, z: 0.8, y: -0.4 }}
-		anchor={{ x: 1.2, z: 0.8, y: -0.4 }}
-	/>
-	<Axle
-		isDriven
-		side={'right'}
+		let:rigidBody
+	>
+		<Axle
+			isSteered
+			position={{}}
+			anchor={{}}
+			parentRigidBody={rigidBody}
+			let:rigidBody={axleRigidBody}
+		>
+			<Wheel anchor={{ z: -0.18 }} position={{ z: -0.18 }} parentRigidBody={axleRigidBody} />
+		</Axle>
+	</Damper>
+
+	<Damper
+		position={{ x: damperOffsetX, z: -damperOffsetZ, y: damperOffsetY }}
+		anchor={{ x: damperOffsetX, z: -damperOffsetZ, y: damperOffsetY }}
 		{parentRigidBody}
-		position={{ x: 1.2, z: -0.8, y: -0.4 }}
-		anchor={{ x: 1.2, z: -0.8, y: -0.4 }}
-	/>
+		let:rigidBody
+	>
+		<Wheel anchor={{ z: -0.18 }} position={{ z: -0.18 }} isDriven parentRigidBody={rigidBody} />
+	</Damper>
+
+	<Damper
+		position={{ x: damperOffsetX, z: damperOffsetZ, y: damperOffsetY }}
+		anchor={{ x: damperOffsetX, z: damperOffsetZ, y: damperOffsetY }}
+		{parentRigidBody}
+		let:rigidBody
+	>
+		<Wheel anchor={{ z: 0.18 }} position={{ z: 0.18 }} isDriven parentRigidBody={rigidBody} />
+	</Damper>
 </Group>

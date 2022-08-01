@@ -9,14 +9,11 @@
 	import { clamp, DEG2RAD, mapLinear } from 'three/src/math/MathUtils'
 	import { useCar } from './Car.svelte'
 	import { useWasd } from './useWasd'
-	import Wheel from './Wheel.svelte'
 
 	export let position: Position | undefined = undefined
 	export let parentRigidBody: RapierRigidBody | undefined = undefined
 	export let anchor: Position
 	export let isSteered: boolean = false
-	export let isDriven: boolean = false
-	export let side: 'left' | 'right'
 
 	let axleRigidBody: RapierRigidBody
 
@@ -46,10 +43,5 @@
 		<Collider mass={1} shape={'cuboid'} args={[0.03, 0.03, 0.03]} />
 	</RigidBody>
 
-	<Wheel
-		{isDriven}
-		anchor={{ z: side === 'left' ? 0.2 : -0.2 }}
-		position={{ z: side === 'left' ? 0.2 : -0.2 }}
-		parentRigidBody={axleRigidBody}
-	/>
+	<slot rigidBody={axleRigidBody} />
 </Group>
